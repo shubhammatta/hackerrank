@@ -1,0 +1,62 @@
+#include <iostream>
+#include <limits.h>
+
+using namespace std;
+
+int main()
+{
+    int **graphmat, nodes, edges, i, node1, node2, starting_node, current_node, *distance, *visited, j; 
+    int minDistance, minIndex, dist, num, ans=0;
+    cin>>nodes>>edges;
+    graphmat=new int*[nodes];
+    distance=new int[nodes];
+    visited=new int[nodes]; 
+    for(i=0;i<nodes;i++)
+    {
+        graphmat[i]=new int[nodes];
+        for(j=0;j<nodes;j++)
+            graphmat[i][j]=-1;
+    }
+    for(i=0;i<nodes;i++)
+    {
+        distance[i]=INT_MAX;
+    }
+    for(i=0;i<edges;i++)
+    {
+        cin>>node1>>node2>>dist;
+        if(graphmat[node1-1][node2-1]==-1 || graphmat[node1-1][node2-1]>dist)
+        {
+            graphmat[node1-1][node2-1]=dist;
+            graphmat[node2-1][node1-1]=dist;
+        }
+    }
+    cin>>starting_node;
+    starting_node--;
+    distance[starting_node]=0;
+    visited[starting_node]=1;
+    for(num=0;num<nodes-1;num++)
+    {
+        minDistance=INT_MAX;
+        for(i=0;i<nodes;i++)
+        {
+            if(visited[i]==1)
+            {
+                current_node=i;
+                for(j=0;j<nodes;j++)
+                {
+                    if(visited[j]==0 && graphmat[current_node][j]!=-1 && graphmat[current_node][j]<minDistance)
+                    {
+                        minDistance=graphmat[current_node][j];
+                        minIndex=j;
+                    }
+                }
+            }
+        }
+        visited[minIndex]=1;
+        distance[minIndex]=minDistance;
+    }
+    for(i=0;i<nodes;i++)
+        cout << distance[i] << " "; cout << endl;
+    cout<<ans<<endl;
+    return 0;
+}
