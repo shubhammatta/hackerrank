@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <string.h>
 using namespace std;
 int n , m;
 int arr[11][11]={0};

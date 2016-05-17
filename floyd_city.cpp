@@ -52,10 +52,10 @@ Graph::Graph(int V)
 void Graph::addEdge(int v, int w,int weight)
 {
     Edge e(w , weight);
-    cout << v << " " << w << " " << weight << endl;
+   // cout << v << " " << w << " " << weight << endl;
     if(EdgeExist(v,w)==-1)
     adj[v].push_back(e); // Add w to v’s list.
-    else if(EdgeExist(v,w)>weight)
+    else
     {
         for(int m=0;m<adj[v].size();m++){
             if(adj[v][m].to==w){ 
@@ -76,7 +76,7 @@ int keyval(int mst[] , int * lst,int vertices){
 
 
 
-void prims(Graph g , int start ,int vertices , int edges,int end){
+int * prims(Graph g , int start ,int vertices , int edges){
     
     int * visited = new int[vertices];
     int * mst = new int[vertices];
@@ -84,10 +84,11 @@ void prims(Graph g , int start ,int vertices , int edges,int end){
     for(int i=0;i<vertices;i++) {visited[i] = -1;mst[i]=0;dist[i]=INT_MAX;}
     visited[start] = 0;
     dist[start]=0;
-    vector<Edge>::iterator i;
+    //vector<Edge>::iterator i;
     int e=1;
     while(e<vertices){
         int point = keyval(mst,dist,vertices);
+        if(point==-1) break;
         mst[point]=1;
         for(int i=0;i<vertices;i++){
             int k=g.EdgeExist(point,i);
@@ -102,13 +103,8 @@ void prims(Graph g , int start ,int vertices , int edges,int end){
         }
         e++;
     }
-    long long int count=0;
-    
-    if(dist[end]==INT_MAX)
-      cout << -1 << " ";
-    else if(dist[end]!=0)
-     cout << dist[end] << " ";
-        
+    long long int count=0;    
+     return dist;
 }
 
 int main() {
@@ -137,11 +133,24 @@ int main() {
     //     for(int j=0;j<g.adj[i].size();j++) cout<<i << " " <<g.adj[i][j].to << " "  << g.adj[i][j].weight << endl;
     //     cout << endl; 
     // }
+    int dist[n][n];
+
+    for(int i=0;i<n;i++){
+        int * arr = prims(g,i,n,m);
+         // /for(int j=0;j<n;j++) cout<< arr[j] << endl;
+        for(int j=0;j<n;j++){
+            if(arr[j]!=INT_MAX)
+            dist[i][j] = arr[j];
+            else dist[i][j]=-1;
+        }
+    }
     while(s--){
         int start,end;
         cin >> start >> end;
-        prims(g,s-1,n,m,end-1);
+        cout << dist[start-1][end-1] << endl;
+        //cout <<  prims(g,start-1,n,m,end-1) << endl;
+        //else cout << 0  << endl;
     }
-    
+    //cout << prims(g,s-1,)
     return 0;
 }
