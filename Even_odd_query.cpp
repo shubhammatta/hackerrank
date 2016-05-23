@@ -17,12 +17,20 @@ int main() {
     int x,y;
     while(q--){
         cin >> x >> y;
-        int ans = pow(arr[x-1],arr[x]);
-        ans%=2;
-        if(ans==0)
-            cout << "Even" << endl;
-        else 
-            cout << "Odd" << endl;
+        if(x!=y)
+        {int ans = pow(arr[x-1],arr[x]);
+                ans%=2;
+                if(ans==0)
+                    cout << "Even" << endl;
+                else 
+                    cout << "Odd" << endl;}
+        else{
+            if(arr[x]%2==0){
+                cout << "Even" << endl;
+            }
+            else
+                cout << "Odd" << endl;
+        }
     }
     return 0;
 }
