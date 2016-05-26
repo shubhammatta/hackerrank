@@ -52,7 +52,7 @@ Graph::Graph(int V)
 void Graph::addEdge(int v, int w,int weight)
 {
     Edge e(w , weight);
-    cout << v << " " << w << " " << weight << endl;
+    //cout << v << " " << w << " " << weight << endl;
     if(EdgeExist(v,w)==-1)
     adj[v].push_back(e); // Add w to v’s list.
     else if(EdgeExist(v,w)>weight)
@@ -76,7 +76,7 @@ int keyval(int mst[] , int * lst,int vertices){
 
 
 
-void prims(Graph g , int start ,int vertices , int edges,int end){
+void prims(Graph g , int start ,int vertices , int edges){
     
     int * visited = new int[vertices];
     int * mst = new int[vertices];
@@ -88,6 +88,7 @@ void prims(Graph g , int start ,int vertices , int edges,int end){
     int e=1;
     while(e<vertices){
         int point = keyval(mst,dist,vertices);
+        if(point==-1) break;
         mst[point]=1;
         for(int i=0;i<vertices;i++){
             int k=g.EdgeExist(point,i);
@@ -97,46 +98,48 @@ void prims(Graph g , int start ,int vertices , int edges,int end){
                 //cout << point << " to  " << i << endl;
                 //if(dist[i]!=INT_MAX)
                 dist[i] = k+dist[point];
-                //cout << dist[i] << " " << i <<" " << point <<endl;
+               // cout << dist[i] << " " << i <<" " << point <<endl;
             }
         }
         e++;
     }
     long long int count=0;
-    for(int j=0;j<vertices;j++)
-    {if(dist[j]==INT_MAX)
+    for(int j=0;j<vertices;j++){
+        if(dist[j]==INT_MAX)
           cout << -1 << " ";
         else if(dist[j]!=0)
-         cout << dist[j] << " ";}
-        cout << endl;
+         cout << dist[j] << " "; 
+        
+    }cout << endl;
 }
 
 int main() {
     
-    
-    int n,m;
-    cin >> n >> m;
-    Graph g(n);
-    int fr,to,weight;
-    for(int i=0;i<m;i++){
-        cin >> fr >> to >> weight;
-        g.addEdge(fr-1,to-1,weight);
-        //g.addEdge(to-1,fr-1,weight);
-        //cout << fr << to << weight << endl;
-    }
-    int s;cin >>s ;
-    // set<int>::iterator i ;
-    // for(int j=0;j<n;j++){
-    //     cout << j << " -> ";
-    //     for(i=g.adj[j].begin();i!=g.adj[j].end();++i){
-    //         cout << *i << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // for(int i=0;i<n;i++){
-    //     for(int j=0;j<g.adj[i].size();j++) cout<<i << " " <<g.adj[i][j].to << " "  << g.adj[i][j].weight << endl;
-    //     cout << endl; 
-    // }
+    int t;cin>>t;
+    while(t--){int n,m;
+        cin >> n >> m;
+        Graph g(n);
+        int fr,to,weight;
+        for(int i=0;i<m;i++){
+            cin >> fr >> to >> weight;
+            g.addEdge(fr-1,to-1,weight);
+            g.addEdge(to-1,fr-1,weight);
+            //cout << fr << to << weight << endl;
+        }
+        int s;cin >>s ;
+        // set<int>::iterator i ;
+        // for(int j=0;j<n;j++){
+        //     cout << j << " -> ";
+        //     for(i=g.adj[j].begin();i!=g.adj[j].end();++i){
+        //         cout << *i << " ";
+        //     }
+        //     cout << endl;
+        // }
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<g.adj[i].size();j++) cout<<i << " " <<g.adj[i][j].to << " "  << g.adj[i][j].weight << endl;
+        //     cout << endl; 
+        // }
+        prims(g,s-1,n,m);}
     
     return 0;
 }
